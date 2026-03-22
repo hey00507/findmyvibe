@@ -1,6 +1,6 @@
 # CLAUDE.md — FindMyVibe
 
-## 패키지 구조
+## Package Structure
 ```
 com.findmyvibe/
 ├── api/                 # Controller, DTO
@@ -9,19 +9,19 @@ com.findmyvibe/
 └── common/              # Config, Exception
 ```
 
-## 의존성 규칙
-- domain → api, infrastructure 의존 금지
-- controller → repository 직접 접근 금지
-- infrastructure → api 의존 금지
+## Dependency Rules
+- domain must not depend on api or infrastructure
+- controller must not access repository directly
+- infrastructure must not depend on api
 
-## 개발 프로세스
-1. PRD 먼저 구성
-2. 기존 코드에서 차용 가능한 부분 확인
-3. 실패하는 테스트 작성
-4. 테스트 통과하는 최소 코드 구현
-5. 리팩터링
+## Development Process
+1. Define PRD first
+2. Check existing code for reusable parts
+3. Write failing tests
+4. Implement minimal code to pass
+5. Refactor
 
-## 원칙
-- API 테스트 커버리지 100%
-- 3회 반복 → 메서드 추출
-- 미사용 자원 즉시 제거
+## Principles
+- 100% API test coverage
+- Extract method after 3 repetitions
+- Remove unused resources immediately
