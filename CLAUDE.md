@@ -25,6 +25,3 @@ com.findmyvibe/
 - API 테스트 커버리지 100%
 - 3회 반복 → 메서드 추출
 - 미사용 자원 즉시 제거
-
-## 커밋
-한글. `feat:` / `fix:` / `refactor:` / `test:` / `docs:` / `chore:`
