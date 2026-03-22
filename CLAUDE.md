@@ -26,6 +26,18 @@ com.findmyvibe/
 - `infrastructure` → `api` 의존 금지
 - 흐름: Controller(api) → Service(domain) → Repository(domain) / Client(infrastructure)
 
+## 개발 프로세스
+1. 기능에 대한 명확한 PRD를 먼저 구성한다
+2. 중복되는 코드 또는 차용 가능한 기존 코드가 없는지 확인한다
+3. 실패하는 테스트를 먼저 작성한다
+4. 테스트를 통과하는 최소한의 코드를 구현한다
+5. 리팩터링한다
+
+## 테스트 원칙
+- BE API 테스트 커버리지 100% 유지
+- 3회 반복 → 메서드 추출
+- 미사용 자원 즉시 제거
+
 ## 빌드 & 실행
 ```bash
 ./gradlew bootRun --args='--spring.profiles.active=local'   # 로컬 실행 (H2)
@@ -38,32 +50,6 @@ com.findmyvibe/
 - `test`: Testcontainers (PostgreSQL + Redis)
 - `prod`: AWS RDS + ElastiCache
 
-## 코드 컨벤션
-- TDD: 테스트 먼저 작성 → 구현 → 리팩터
-- 3회 반복 → 메서드 추출
-- 미사용 자원 즉시 제거
-- API 키/시크릿은 환경변수 (.env gitignore)
-- Entity를 API 응답으로 직접 노출하지 않음 → DTO 변환 필수
-- 에러 응답: RFC 7807 Problem Details 형식
-
-## Java 25 활용
-- Virtual Threads: `spring.threads.virtual.enabled=true`
-- Structured Concurrency: 병렬 작업 (LLM + 크롤링)
-- Scoped Values: traceId 전파 (ThreadLocal 대체)
-- Record, Sealed Interface, Pattern Matching 적극 활용
-
-## 외부 API 장애 대응
-- Resilience4j: Circuit Breaker + Retry + Bulkhead
-- Fallback: Claude API 장애 시 Redis 캐시에서 유사 프로필 추천 반환
-- Rate Limit: IP당 하루 3회, 회원 5회
-
-## 테스트 전략
-- Unit: JUnit 5 + Mockito (Service, Domain)
-- Integration: Testcontainers (PostgreSQL, Redis)
-- API: MockMvc + RestAssured (Controller E2E)
-- Architecture: ArchUnit (레이어 의존성 규칙)
-- LLM Mock: WireMock (Claude API 응답 시뮬레이션)
-
 ## 커밋 메시지
 한글 커밋 메시지 사용. 타입 prefix:
 - `feat:` 새 기능
@@ -74,5 +60,4 @@ com.findmyvibe/
 - `chore:` 빌드/설정
 
 ## 참고 문서
-- [PRD (BE)](https://github.com/hey00507/findmyvibe/blob/main/docs/PRD-BE.md) — 상세 설계
 - [ADR 목록](docs/adr/) — 아키텍처 의사결정 기록
