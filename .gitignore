@@ -39,3 +39,8 @@ out/
 ### Environment ###
 .env
 .env.local
+
+### Frontend ###
+node_modules/
+fe/dist/
+fe/.vite/

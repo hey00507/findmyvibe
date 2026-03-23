@@ -16,19 +16,19 @@ Accepted (2026-03-22)
 ## 근거
 
 ### 역할 분리
-- FE 담당 개발자가 별도 존재
+- 1인 개발이지만 FE/BE를 독립 프로젝트로 관리
 - 독립 배포: FE 수정 시 BE 재배포 불필요, 반대도 마찬가지
 - 독립 롤백: 한쪽 문제 시 다른 쪽 영향 없음
 
 ### Vercel 선택 이유
 - GitHub 연동 한 줄로 자동 배포
-- PR마다 프리뷰 URL 자동 생성 (FE 리뷰 용이)
+- PR마다 프리뷰 URL 자동 생성
 - Hobby 플랜 무료 (개인 프로젝트 충분)
 - BE에서 이미 AWS 인프라 역량을 보여주므로 FE까지 AWS에 올릴 필요 없음
 
 ### AWS 올인 대비 장점
-- CloudFront + S3 + Route53 + ACM 설정 생략 → FE 팀 셋업 시간 절약
-- BE 개발자는 인프라 설정 대신 API 완성도에 집중
+- CloudFront + S3 + Route53 + ACM 설정 생략 → 셋업 시간 절약
+- 인프라 설정 대신 API 완성도에 집중
 
 ## 결과
 - BE: `api.findmyvibe.com` (AWS ALB → ECS Fargate)
