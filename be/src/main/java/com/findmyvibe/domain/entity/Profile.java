@@ -31,11 +31,11 @@ public class Profile extends BaseEntity {
     private String description;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(nullable = false, columnDefinition = "jsonb")
+    @Column(nullable = false)
     private List<String> keywords;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(nullable = false, columnDefinition = "jsonb")
+    @Column(nullable = false)
     private Map<String, Integer> traits;
 
     private Profile(Session session, String typeLabel, String description,
