@@ -1,6 +1,5 @@
 package com.findmyvibe.domain.entity;
 
-import com.findmyvibe.domain.enums.QuestionType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +18,6 @@ class AnswerUnitTest {
         assertThat(answer.getSession()).isEqualTo(session);
         assertThat(answer.getQuestion()).isEqualTo(question);
         assertThat(answer.getContent()).isEqualTo("넷플릭스 보거나 산책해요");
-        assertThat(answer.getAnsweredAt()).isNotNull();
+        assertThat(answer.getCreatedAt()).isNotNull();
     }
 }

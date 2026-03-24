@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,7 @@ import java.util.Map;
 @Table(name = "profiles")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Profile {
+public class Profile extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,9 +38,6 @@ public class Profile {
     @Column(nullable = false, columnDefinition = "jsonb")
     private Map<String, Integer> traits;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
     private Profile(Session session, String typeLabel, String description,
                     List<String> keywords, Map<String, Integer> traits) {
         this.session = session;
@@ -49,7 +45,6 @@ public class Profile {
         this.description = description;
         this.keywords = keywords;
         this.traits = traits;
-        this.createdAt = LocalDateTime.now();
     }
 
     public static Profile create(Session session, String typeLabel, String description,

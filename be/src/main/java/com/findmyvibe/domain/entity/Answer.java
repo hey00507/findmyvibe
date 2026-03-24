@@ -5,13 +5,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "answers")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Answer {
+public class Answer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,14 +26,10 @@ public class Answer {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime answeredAt;
-
     private Answer(Session session, Question question, String content) {
         this.session = session;
         this.question = question;
         this.content = content;
-        this.answeredAt = LocalDateTime.now();
     }
 
     public static Answer create(Session session, Question question, String content) {

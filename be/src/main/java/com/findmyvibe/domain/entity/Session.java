@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "sessions")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Session {
+public class Session extends BaseEntity {
 
     @Id
     @Column(columnDefinition = "uuid")
@@ -23,19 +23,15 @@ public class Session {
     @Column(nullable = false, length = 20)
     private SessionStatus status;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
     private LocalDateTime completedAt;
 
-    private Session(UUID id, SessionStatus status, LocalDateTime createdAt) {
+    private Session(UUID id, SessionStatus status) {
         this.id = id;
         this.status = status;
-        this.createdAt = createdAt;
     }
 
     public static Session create() {
-        return new Session(UUID.randomUUID(), SessionStatus.CREATED, LocalDateTime.now());
+        return new Session(UUID.randomUUID(), SessionStatus.CREATED);
     }
 
     public void markBasicAnswered() {
