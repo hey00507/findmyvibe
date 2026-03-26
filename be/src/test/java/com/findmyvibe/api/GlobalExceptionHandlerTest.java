@@ -1,5 +1,6 @@
 package com.findmyvibe.api;
 
+import com.findmyvibe.common.exception.ClaudeApiException;
 import com.findmyvibe.common.exception.InvalidSessionStateException;
 import com.findmyvibe.common.exception.SessionNotFoundException;
 import com.findmyvibe.domain.enums.SessionStatus;
@@ -39,5 +40,17 @@ class GlobalExceptionHandlerTest {
         assertThat(result.getStatus()).isEqualTo(400);
         assertThat(result.getTitle()).isEqualTo("Bad Request");
         assertThat(result.getDetail()).contains("COMPLETED").contains("BASIC_ANSWERED");
+    }
+
+    @Test
+    @DisplayName("ClaudeApiException → 503 ProblemDetail")
+    void handleClaudeApiException_returns503() {
+        ClaudeApiException ex = new ClaudeApiException("API 호출 실패");
+
+        ProblemDetail result = handler.handleClaudeApiException(ex);
+
+        assertThat(result.getStatus()).isEqualTo(503);
+        assertThat(result.getTitle()).isEqualTo("Service Unavailable");
+        assertThat(result.getDetail()).contains("AI 서비스가 일시적으로 불가합니다");
     }
 }

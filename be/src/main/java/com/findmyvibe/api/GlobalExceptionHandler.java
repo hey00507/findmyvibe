@@ -1,5 +1,6 @@
 package com.findmyvibe.api;
 
+import com.findmyvibe.common.exception.ClaudeApiException;
 import com.findmyvibe.common.exception.InvalidSessionStateException;
 import com.findmyvibe.common.exception.SessionNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST, ex.getMessage());
         problem.setTitle("Bad Request");
+        return problem;
+    }
+
+    @ExceptionHandler(ClaudeApiException.class)
+    ProblemDetail handleClaudeApiException(ClaudeApiException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.SERVICE_UNAVAILABLE, "AI 서비스가 일시적으로 불가합니다");
+        problem.setTitle("Service Unavailable");
         return problem;
     }
 }
