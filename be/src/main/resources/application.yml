@@ -6,6 +6,8 @@ spring:
       enabled: true
   flyway:
     enabled: false
+  cache:
+    type: simple
 
 # Claude API
 claude:

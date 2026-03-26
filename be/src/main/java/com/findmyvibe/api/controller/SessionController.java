@@ -76,6 +76,18 @@ public class SessionController {
         return new AnalysisResponse(profile, recommendations);
     }
 
+    @GetMapping("/{sessionId}/profile")
+    public ProfileResponse getProfile(@PathVariable UUID sessionId) {
+        return ProfileResponse.from(analysisService.getProfile(sessionId));
+    }
+
+    @GetMapping("/{sessionId}/recommendations")
+    public List<RecommendationResponse> getRecommendations(@PathVariable UUID sessionId) {
+        return analysisService.getRecommendations(sessionId).stream()
+                .map(RecommendationResponse::from)
+                .toList();
+    }
+
     private Map<Long, String> toAnswerMap(List<SubmitAnswersRequest.AnswerItem> items) {
         Map<Long, String> map = new LinkedHashMap<>();
         items.forEach(item -> map.put(item.questionId(), item.content()));

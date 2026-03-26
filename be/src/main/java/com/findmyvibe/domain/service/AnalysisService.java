@@ -8,6 +8,7 @@ import com.findmyvibe.domain.enums.SessionStatus;
 import com.findmyvibe.domain.repository.*;
 import com.findmyvibe.domain.service.AiAnalysisPort.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,6 +121,21 @@ public class AnalysisService {
         session.markCompleted();
 
         return analysisResult;
+    }
+
+    @Cacheable(value = "profile", key = "#sessionId")
+    public Profile getProfile(UUID sessionId) {
+        Session session = findSession(sessionId);
+        validateStatus(session, SessionStatus.COMPLETED);
+        return profileRepository.findBySessionId(sessionId)
+                .orElseThrow(() -> new SessionNotFoundException(sessionId));
+    }
+
+    @Cacheable(value = "recommendations", key = "#sessionId")
+    public List<Recommendation> getRecommendations(UUID sessionId) {
+        Session session = findSession(sessionId);
+        validateStatus(session, SessionStatus.COMPLETED);
+        return recommendationRepository.findBySessionIdOrderByOrderIndex(sessionId);
     }
 
     private Session findSession(UUID sessionId) {
