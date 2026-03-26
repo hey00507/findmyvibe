@@ -7,6 +7,8 @@ import com.findmyvibe.domain.service.AiAnalysisPort.AnalysisResult;
 import com.findmyvibe.domain.service.AnalysisService;
 import com.findmyvibe.domain.service.SessionService;
 import com.findmyvibe.domain.service.SessionService.SessionCreateResult;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Tag(name = "Session", description = "AI 성향 분석 세션 API")
 @RestController
 @RequestMapping("/api/v1/sessions")
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class SessionController {
     private final SessionService sessionService;
     private final AnalysisService analysisService;
 
+    @Operation(summary = "세션 생성", description = "새 세션을 생성하고 기본 질문 7개를 반환합니다")
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public CreateSessionResponse createSession() {
@@ -37,6 +41,7 @@ public class SessionController {
         return new CreateSessionResponse(result.session().getId(), questionResponses);
     }
 
+    @Operation(summary = "기본 답변 제출", description = "기본 질문 7개에 대한 답변을 제출하면 꼬리질문 3~5개를 반환합니다")
     @PostMapping("/{sessionId}/answers")
     public FollowUpQuestionsResponse submitAnswers(
             @PathVariable UUID sessionId,
@@ -52,6 +57,7 @@ public class SessionController {
         return new FollowUpQuestionsResponse(responses);
     }
 
+    @Operation(summary = "꼬리질문 답변 제출", description = "꼬리질문 답변을 제출하면 성향 프로필 + 추천 5개를 반환합니다")
     @PostMapping("/{sessionId}/follow-up")
     public AnalysisResponse submitFollowUp(
             @PathVariable UUID sessionId,
@@ -76,11 +82,13 @@ public class SessionController {
         return new AnalysisResponse(profile, recommendations);
     }
 
+    @Operation(summary = "프로필 조회", description = "완료된 세션의 성향 프로필을 조회합니다 (캐시 적용)")
     @GetMapping("/{sessionId}/profile")
     public ProfileResponse getProfile(@PathVariable UUID sessionId) {
         return ProfileResponse.from(analysisService.getProfile(sessionId));
     }
 
+    @Operation(summary = "추천 목록 조회", description = "완료된 세션의 추천 취미/클래스 목록을 조회합니다 (캐시 적용)")
     @GetMapping("/{sessionId}/recommendations")
     public List<RecommendationResponse> getRecommendations(@PathVariable UUID sessionId) {
         return analysisService.getRecommendations(sessionId).stream()

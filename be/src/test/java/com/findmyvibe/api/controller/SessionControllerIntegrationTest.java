@@ -1,12 +1,14 @@
 package com.findmyvibe.api.controller;
 
 import com.findmyvibe.domain.constant.BasicQuestions;
+import com.findmyvibe.domain.service.AiAnalysisPort;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.*;
@@ -20,6 +22,9 @@ class SessionControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private AiAnalysisPort aiAnalysisPort;
 
     @Test
     @DisplayName("POST /api/v1/sessions → 200, sessionId + 질문 7개 반환")
