@@ -28,6 +28,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problem;
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    ProblemDetail handleIllegalArgument(IllegalArgumentException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST, ex.getMessage());
+        problem.setTitle("Bad Request");
+        return problem;
+    }
+
     @ExceptionHandler(ClaudeApiException.class)
     ProblemDetail handleClaudeApiException(ClaudeApiException ex) {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(
