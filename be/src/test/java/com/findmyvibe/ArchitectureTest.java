@@ -27,14 +27,11 @@ class ArchitectureTest {
                     .should().dependOnClassesThat().resideInAPackage("..infrastructure..")
                     .because("domain은 외부 기술 구현에 의존하면 안 됩니다");
 
-    // api, infrastructure 패키지에 클래스가 아직 없으므로 allowEmptyShould 허용
-    // Step 2에서 Controller/Service 구현 후 실질적 검증이 시작된다
     @ArchTest
     static final ArchRule controller는_repository에_직접_접근하지_않는다 =
             noClasses()
                     .that().resideInAPackage("..api..")
                     .should().dependOnClassesThat().resideInAPackage("..domain.repository..")
-                    .allowEmptyShould(true)
                     .because("controller는 service를 통해서만 데이터에 접근해야 합니다");
 
     @ArchTest
